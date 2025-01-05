@@ -4,7 +4,7 @@ const ResumeDownload = () => {
   const [loading, setLoading] = useState(false);
 
   const handleDownload = () => {
-    setLoading(true); // Set loading state to true when the button is clicked.
+    setLoading(true); // Set loading state to true when the button is clicked..
 
     // Simulate the download process
     const link = document.createElement("a");
