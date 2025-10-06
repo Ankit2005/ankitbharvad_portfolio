@@ -9,7 +9,7 @@ const ResumeDownload = () => {
     // Simulate the download process
     const link = document.createElement("a");
     link.href =
-      "https://drive.google.com/uc?export=download&id=1UOcXBV_4jZB03zBBN3-j1PaCiApZWsWW";
+      "https://drive.google.com/file/d/1VdOF6X7z1veEFdzx5Dh0YPA4KQOKGhr6/view?usp=sharing";
     link.download = "Ankit_Bharvad_Resume.pdf"; // Optional: Set a custom file name
     document.body.appendChild(link);
     link.click();
