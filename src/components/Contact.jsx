@@ -51,7 +51,7 @@ const Contact = () => {
     const json = await res.json();
 
     if (json.status === "success") {
-      alert("✅ Your message has been saved in Google Sheets!");
+      alert("✅ Your message has been sent successfully!");
       setForm({ name: "", email: "", message: "" });
     } else {
       throw new Error(json.message || "Unknown error");
