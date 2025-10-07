@@ -42,65 +42,38 @@ const Contact = () => {
     e.preventDefault();
     setLoading(true);
 
-    // Data to send to Google Sheets
-    const formData = {
-      name: form.name,
-      email: form.email,
-      message: form.message,
-    };
-
+    const url = "https://script.google.com/macros/s/AKfycbzKPICocfnO9dxdsmhe6T1p-CDfRqhnsz3BEthomAIFpToXoGUG0i4Tu2xZLsCAA6UEAw/exec";
+    // https://script.google.com/macros/s/AKfycbzKPICocfnO9dxdsmhe6T1p-CDfRqhnsz3BEthomAIFpToXoGUG0i4Tu2xZLsCAA6UEAw/exec
     try {
-      // Send email using emailjs
-      // await emailjs.send(
-      //   "service_u8ncozh",
-      //   "template_m5h33oa",
-      //   {
-      //     from_name: form.name,
-      //     to_name: "Ankit Bharvad",
-      //     from_email: form.email,
-      //     to_email: "ankitmb15@gmail.com",
-      //     message: form.message,
-      //   },
-      //   "kI0rmuPqQID_S-wQK"
-      // );
+      // Prepare form data
+      const body = new FormData();
+      body.append("name", form.name);
+      body.append("email", form.email);
+      body.append("message", form.message);
 
-      console.log(formData);
-
-      // Send data to Google Sheets ..
-      const response = await fetch(
-        "https://script.google.com/macros/s/AKfycbyHwXr-qfDtBO-CeHTtzByLyAT5Wc1O9rMZbFH2lQs9K3St9Odf6QZXRhcEgE3cT9MHDw/exec",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(formData),
-        }
-      );
-
-      const result = await response.json();
-      console.log(result);
-      if (result.status === "success") {
-        alert(
-          "Thank you. Your data has been saved, and I will get back to you as soon as possible."
-        );
-      } else {
-        throw new Error("Failed to save data to Google Sheets.");
-      }
-
-      // Reset form state
-      setForm({
-        name: "",
-        email: "",
-        message: "",
+      // Send data to Google Sheet
+      const res = await fetch(url, {
+        method: "POST",
+        body, // no headers required for FormData
       });
-    } catch (error) {
-      console.error(error);
-      alert("Ahh, something went wrong. Please try again.");
+
+      const json = await res.json();
+      console.log("Sheets response:", json);
+
+      if (json.status === "success") {
+        alert("✅ Thank you! Your message has been saved in Google Sheets.");
+        setForm({ name: "", email: "", message: "" });
+      } else {
+        throw new Error(json.message || "Unknown error from Google Sheets");
+      }
+    } catch (err) {
+      console.error("Error saving to sheet:", err);
+      alert("❌ Something went wrong while saving your message.");
     } finally {
       setLoading(false);
     }
   };
+
 
   return (
     <div
