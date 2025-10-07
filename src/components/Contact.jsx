@@ -31,48 +31,39 @@ const Contact = () => {
     });
   };
 
-  // https://script.google.com/macros/s/AKfycbyHwXr-qfDtBO-CeHTtzByLyAT5Wc1O9rMZbFH2lQs9K3St9Odf6QZXRhcEgE3cT9MHDw/exec   // URL
-  // AKfycbyHwXr-qfDtBO-CeHTtzByLyAT5Wc1O9rMZbFH2lQs9K3St9Odf6QZXRhcEgE3cT9MHDw // Deployment ID
-
-  // https://script.google.com/macros/s/AKfycbyHwXr-qfDtBO-CeHTtzByLyAT5Wc1O9rMZbFH2lQs9K3St9Odf6QZXRhcEgE3cT9MHDw/exec
-
-  // https://script.google.com/macros/library/d/1nJ6weOlNTl8RX42VGfZzhWTJM472AjdbEPageihp5dJd86EK_JH3V9h8/1
-
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    setLoading(true);
+  e.preventDefault();
+  setLoading(true);
 
-    const url = "https://script.google.com/macros/s/AKfycbzKPICocfnO9dxdsmhe6T1p-CDfRqhnsz3BEthomAIFpToXoGUG0i4Tu2xZLsCAA6UEAw/exec";
-    // https://script.google.com/macros/s/AKfycbzKPICocfnO9dxdsmhe6T1p-CDfRqhnsz3BEthomAIFpToXoGUG0i4Tu2xZLsCAA6UEAw/exec
-    try {
-      // Prepare form data
-      const body = new FormData();
-      body.append("name", form.name);
-      body.append("email", form.email);
-      body.append("message", form.message);
+  const url = "https://script.google.com/macros/s/AKfycbzKPICocfnO9dxdsmhe6T1p-CDfRqhnsz3BEthomAIFpToXoGUG0i4Tu2xZLsCAA6UEAw/exec";
 
-      // Send data to Google Sheet
-      const res = await fetch(url, {
-        method: "POST",
-        body, // no headers required for FormData
-      });
+  try {
+    const body = new FormData();
+    body.append("name", form.name);
+    body.append("email", form.email);
+    body.append("message", form.message);
 
-      const json = await res.json();
-      console.log("Sheets response:", json);
+    const res = await fetch(url, {
+      method: "POST",
+      body
+    });
 
-      if (json.status === "success") {
-        alert("✅ Thank you! Your message has been saved in Google Sheets.");
-        setForm({ name: "", email: "", message: "" });
-      } else {
-        throw new Error(json.message || "Unknown error from Google Sheets");
-      }
-    } catch (err) {
-      console.error("Error saving to sheet:", err);
-      alert("❌ Something went wrong while saving your message.");
-    } finally {
-      setLoading(false);
+    const json = await res.json();
+
+    if (json.status === "success") {
+      alert("✅ Your message has been saved in Google Sheets!");
+      setForm({ name: "", email: "", message: "" });
+    } else {
+      throw new Error(json.message || "Unknown error");
     }
-  };
+  } catch (err) {
+    console.error(err);
+    alert("❌ Something went wrong while saving your message.");
+  } finally {
+    setLoading(false);
+  }
+};
+
 
 
   return (
