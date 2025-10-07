@@ -45,7 +45,6 @@ The portfolio is live on **Vercel**:
 
 ## 📬 Contact
 💼 Ankit Bharvad  
-📧 ankitbharvad@example.com  
 🔗 [LinkedIn](https://linkedin.com/in/ankitbharvad) | [GitHub](https://github.com/ankitbharvad)
 
 ---
